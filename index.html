@@ -1,133 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Q3 - SW1</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css"; />
-        <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>;
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #e9f2e1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-.card {
-    background: white;
-    width: 400px;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    text-align: center;
-}
-.question { text-align: left; margin-bottom: 15px; }
-select { width: 100%; padding: 8px; margin-top: 5px; }
-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    background: linear-gradient(to right, red, yellow, green);
-    color: white;
-    font-weight: bold;
-}
-.result { margin-top: 20px; font-weight: bold; }
-img { width: 200px; margin-top: 15px; display: none; }
-</style>
-</head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Intrams Eligibility Checker</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
 
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 { color: #333; margin-bottom: 25px; }
+        .question { text-align: left; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        p { font-weight: bold; margin-bottom: 10px; }
+        select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        button {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            font-size: 18px; cursor: pointer;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white; font-weight: bold; margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.02); }
+        .result { margin-top: 20px; font-size: 1.1rem; line-height: 1.4; }
+        #teamImage { width: 150px; height: 150px; margin: 15px auto; display: none; border-radius: 10px; }
+    </style>
+</head>
 <body>
 
 <div class="card">
-<h2>Seatwork 2 Third Quarter</h2>
+    <h2>🏆 Intrams Eligibility</h2>
 
-<div class="question">
-<p>Are you done with the online registration?</p>
-<input type="radio" name="register" value="yes"> Yes
-<input type="radio" name="register" value="no"> No
+    <div class="question">
+        <p>1. Are you done with online registration?</p>
+        <label><input type="radio" name="register" value="yes"> Yes</label>
+        <label style="margin-left: 15px;"><input type="radio" name="register" value="no"> No</label>
+    </div>
+
+    <div class="question">
+        <p>2. Medical clearance from clinic?</p>
+        <label><input type="radio" name="medical" value="yes"> Yes</label>
+        <label style="margin-left: 15px;"><input type="radio" name="medical" value="no"> No</label>
+    </div>
+
+    <div class="question">
+        <p>3. Grade & Section</p>
+        <select id="grade">
+            <option value="">Select Grade</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+            <option value="9">Grade 9</option>
+            <option value="10">Grade 10</option>
+        </select>
+        <select id="section" style="margin-top: 10px;">
+            <option value="">Select Section</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Sapphire">Sapphire</option>
+            <option value="Jade">Jade</option>
+        </select>
+    </div>
+
+    <button py-click="check_eligibility_py">Sign up</button>
+
+    <script type="py" src="main.py"></script>
+
+    <div class="result" id="result"></div>
+    <img id="teamImage" src="" alt="Team Logo">
 </div>
-
-<div class="question">
-<p>Do you have the medical clearance from the clinic?</p>
-<input type="radio" name="medical" value="yes"> Yes
-<input type="radio" name="medical" value="no"> No
-</div>
-
-<div class="question">
-<p>What's your Grade & Section?</p>
-<select id="grade">
-<option value="">Select Grade</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-</select>
-
-<select id="section">
-<option value="">Select Section</option>
-<option value="Ruby">Ruby</option>
-<option value="Emerald">Emerald</option>
-<option value="Sapphire">Sapphire</option>
-<option value="Jade">Jade</option>
-</select>
-</div>
-
-<button onclick="checkEligibility()">Sign up</button>
-
-<div class="result" id="result"></div>
-<img id="teamImage" src="">
-</div>
-
-<script>
-function checkEligibility() {
-    let reg = document.querySelector('input[name="register"]:checked');
-    let med = document.querySelector('input[name="medical"]:checked');
-    let grade = document.getElementById("grade").value;
-
-    if (!reg || reg.value === "no") {
-        showResult("❌ Please complete the online registration.", "");
-        return;
-    }
-
-    if (!med || med.value === "no") {
-        showResult("❌ Please secure a medical clearance.", "");
-        return;
-    }
-
-    if (!grade || grade < 7 || grade > 10) {
-        showResult("❌ Only Grades 7–10 are allowed.", "");
-        return;
-    }
-
-    const teams = {
-        7: ["Blue Bears", "https://via.placeholder.com/200/0000FF/FFFFFF?text=Blue+Bears"],
-        8: ["Red Bulldogs", "https://via.placeholder.com/200/FF0000/FFFFFF?text=Red+Bulldogs"],
-        9: ["Yellow Tigers", "https://via.placeholder.com/200/FFD700/000000?text=Yellow+Tigers"],
-        10:["Green Hornets", "https://via.placeholder.com/200/008000/FFFFFF?text=Green+Hornets"]
-    };
-
-    const team = teams[grade];
-    showResult(`🎉 Congratulations! You are part of the ${team[0]}!`, team[1]);
-}
-
-function showResult(text, img) {
-    document.getElementById("result").innerHTML = text;
-    const image = document.getElementById("teamImage");
-
-    if (img) {
-        image.src = img;
-        image.style.display = "block";
-    } else {
-        image.style.display = "none";
-    }
-}
-</script>
 
 </body>
 </html>
